@@ -3,7 +3,7 @@ const path = require('path');
 
 const { Gateway, Wallets } = require("fabric-network");
 
-module.exports.gateway = async () => {
+module.exports.execTransaction = async (transaction, evaluate = true, params = null) => {
     try {
         // load the network configuration
         const ccpPath = path.resolve(
@@ -19,7 +19,7 @@ module.exports.gateway = async () => {
         );
 
         const ccp = JSON.parse(fs.readFileSync(ccpPath, "utf8"));
-        // Create a new file system based wallet for managing identities.
+
         const walletPath = path.join(process.cwd(), "wallet");
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
@@ -32,6 +32,7 @@ module.exports.gateway = async () => {
             console.log("Run the registerUser.js application before retrying");
             return;
         }
+
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
         await gateway.connect(ccp, {
@@ -39,7 +40,22 @@ module.exports.gateway = async () => {
             identity: "appUser",
             discovery: { enabled: true, asLocalhost: true },
         });
-        return gateway;
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork("mychannel");
+        // Get the contract from the network.
+        const contract = network.getContract("fabcar");
+        const result =
+            evaluate ?
+                params ?
+                    await contract.evaluateTransaction(transaction, ...params) :
+                    await contract.evaluateTransaction(transaction)
+                :
+                await contract.submitTransaction(transaction, ...params);
+
+        gateway.disconnect();
+
+        return result;
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);

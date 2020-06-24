@@ -1,0 +1,25 @@
+{
+  "name": "hlf-fabcar",
+  "version": "1.0.0",
+  "description": "Hyperledger fabric - fabcar express.js example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LorranSutter/HLF-fabcar.git"
+  },
+  "keywords": [
+    "Hyperledger",
+    "Hyperledger-fabric",
+    "Chaincode",
+    "Express"
+  ],
+  "author": "Lorran Sutter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LorranSutter/HLF-fabcar/issues"
+  },
+  "homepage": "https://github.com/LorranSutter/HLF-fabcar#readme"
+}

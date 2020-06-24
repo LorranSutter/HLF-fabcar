@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/LorranSutter/HLF-fabcar/issues"
   },
-  "homepage": "https://github.com/LorranSutter/HLF-fabcar#readme"
+  "homepage": "https://github.com/LorranSutter/HLF-fabcar#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
